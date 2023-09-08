@@ -1,0 +1,12 @@
+{%extends "base.html" %} {% block title %}Irony{% endblock %}
+
+{% block content %}
+<h1 align="center">Irony Analysis</h1>
+<form method="post">
+    <textarea name="note" id="note" class="form-control"></textarea>
+    <br />
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Analyse the irony of this text.</button>
+    </div>
+</form>
+{% endblock %}
