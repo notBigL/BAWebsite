@@ -1,4 +1,5 @@
 import json
+import matplotlib as mpl
 
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
@@ -44,9 +45,9 @@ def sentiment():
         if len(note) < 6:
             flash("Text is too short", category='error')
         else:
-            analyze.analyze_sentiment(note)
+            result = analyze.analyze_sentiment(note)
             flash("Completed analysis", category='success')
-
+            return render_template("sentiment.html", result=result)
     return render_template("sentiment.html")
 
 

@@ -4,9 +4,14 @@
 <h1 align="center">Sentiment Analysis</h1>
 <form method="post">
     <textarea name="note" id="note" class="form-control"></textarea>
-    <br />
+    <br/>
     <div align="center">
         <button type="submit" class="btn btn-primary">Analyse the sentiment of this text.</button>
+    </div>
+    <br/>
+    <div align="center">
+        <h1> Finished analysing: </h1>
+        <p>{{result}}</p>
     </div>
 </form>
 {% endblock %}

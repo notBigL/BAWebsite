@@ -12,6 +12,7 @@ def analyze_sentiment(data):
 
     print(cls_explainer.predicted_class_name, flush=True)
     print(cls_explainer.word_attributions, flush=True)
+    return cls_explainer.predicted_class_name
 
 
 def analyze_irony(data):
