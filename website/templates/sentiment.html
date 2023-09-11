@@ -8,10 +8,18 @@
     <div align="center">
         <button type="submit" class="btn btn-primary">Analyse the sentiment of this text.</button>
     </div>
+    {% if category%}
     <br/>
     <div align="center">
-        <h1> Finished analysing: </h1>
-        <p>{{result}}</p>
+        <h1>Finished analysing: </h1>
+        <p><span style="background-color:{{category_color}}">{{category}}</span></p>
+        <p>
+            {% for word, word_color in zip%}
+            <span style="background-color:{{word_color}}">{{word}}</span>
+            {% endfor %}
+        </p>
+        <p>{{sentence}}</p>
     </div>
+    {% endif %}
 </form>
 {% endblock %}
