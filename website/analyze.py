@@ -25,3 +25,4 @@ def analyze_irony(data):
 
     print(cls_explainer.predicted_class_name, flush=True)
     print(cls_explainer.word_attributions, flush=True)
+    return cls_explainer.predicted_class_name, cls_explainer.word_attributions
