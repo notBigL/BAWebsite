@@ -3,7 +3,7 @@ import matplotlib as mpl
 import numpy as np
 
 from flask import Blueprint, render_template, request, flash, jsonify
-from flask_login import login_required, current_user
+from flask_login import current_user
 from .models import Note
 from . import db
 from . import analyze
@@ -11,17 +11,8 @@ from . import analyze
 views = Blueprint('views', __name__)
 
 
-@views.route('/', methods=['GET', 'POST'])
+@views.route('/', methods=['GET'])
 def home():
-    if request.method == 'POST':
-        note = request.form.get('note')
-
-        if len(note) < 6:
-            flash("Text is too short", category='error')
-        else:
-            analyze.analyze_sentiment(note)
-            flash("Note added", category='success')
-
     return render_template("home.html")
 
 
@@ -38,46 +29,25 @@ def delete_note():
     return jsonify({})
 
 
-@views.route('/sentiment', methods=['GET', 'POST'])
-def sentiment():
+@views.route('analyse/<model>', methods=['GET', 'POST'])
+def analyse(model):
     if request.method == 'POST':
         note = request.form.get('note')
 
         if len(note) < 6:
             flash("Text is too short", category='error')
         else:
-            category, analysis = analyze.analyze_sentiment(note)
+            category, analysis = analyze.analyze_sentence(note, model)
 
             category_color = "green"
-            if category == 'NEGATIVE':
+            if category == 'NEGATIVE' or category == 'non_irony':
                 category_color = "red"
 
-            sentence, word_colors = array_auseinanderfriemeln(analysis, category == 'POSITIVE')
+            sentence, word_colors = array_auseinanderfriemeln(analysis, category == 'POSITIVE' or category == 'irony')
             flash("Completed analysis", category='success')
-            return render_template("sentiment.html", category=category, category_color=category_color,
-                                   zip=zip(sentence, word_colors))
-    return render_template("sentiment.html")
-
-
-@views.route('/irony', methods=['GET', 'POST'])
-def irony():
-    if request.method == 'POST':
-        note = request.form.get('note')
-
-        if len(note) < 6:
-            flash("Text is too short", category='error')
-        else:
-            category, analysis = analyze.analyze_irony(note)
-
-            category_color = "green"
-            if category == 'non_irony':
-                category_color = "red"
-
-            sentence, word_colors = array_auseinanderfriemeln(analysis, category == 'irony')
-            flash("Completed analysis", category='success')
-            return render_template("irony.html", category=category, category_color=category_color,
-                                   zip=zip(sentence, word_colors))
-    return render_template("irony.html")
+            return render_template("analyse.html", category=category, category_color=category_color,
+                                   zip=zip(sentence, word_colors), model=model, note=note)
+    return render_template("analyse.html", model=model)
 
 
 def array_auseinanderfriemeln(analysis, positive):
