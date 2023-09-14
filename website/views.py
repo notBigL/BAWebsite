@@ -1,6 +1,4 @@
 import json
-import matplotlib as mpl
-import numpy as np
 
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import current_user
@@ -37,7 +35,7 @@ def analyse(model):
         if len(note) < 6:
             flash("Text is too short", category='error')
         else:
-            category, analysis = analyze.analyze_sentence(note, model)
+            category, analysis, html_thingy = analyze.analyze_sentence(note, model)
 
             category_color = "green"
             if category == 'NEGATIVE' or category == 'non_irony':
@@ -46,7 +44,7 @@ def analyse(model):
             sentence, word_colors = array_auseinanderfriemeln(analysis, category == 'POSITIVE' or category == 'irony')
             flash("Completed analysis", category='success')
             return render_template("analyse.html", category=category, category_color=category_color,
-                                   zip=zip(sentence, word_colors), model=model, note=note)
+                                   zip=zip(sentence, word_colors), model=model, note=note, html_thingy=html_thingy)
     return render_template("analyse.html", model=model)
 
 
