@@ -69,6 +69,26 @@ def array_auseinanderfriemeln(analysis, positive):
     return sentence, word_colors
 
 
+@views.route('analyse-post-only', methods=['POST'])
+def analyse_and_give_to_frontend():
+    try:
+        data = request.get_json()
+        data = json.dumps(data)
+        data = json.loads(data)
+        category, analysis, html_thingy = analyze.analyze_sentence(data['sentence'], data['model'])
+
+        #category_color = "green"
+        #if category == 'NEGATIVE' or category == 'non_irony':
+        #    category_color = "red"
+
+        #sentence, word_colors = array_auseinanderfriemeln(analysis, category == 'POSITIVE' or category == 'irony')
+
+        return jsonify(html_thingy), 200
+    except Exception as e:
+        error_response = {'error': str(e)}
+        return jsonify(error_response), 500
+
+
 def map_to_rgb(value):
     if value >= 0:
         return abs(int(value * 230) - 230) - 25
