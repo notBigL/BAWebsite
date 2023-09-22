@@ -8,7 +8,7 @@ model_dict = {}
 
 def analyze_sentence(data, model):
     if model == 'sentiment':
-        model_name = "distilbert-base-uncased-finetuned-sst-2-english"
+        model_name = "finiteautomata/bertweet-base-sentiment-analysis"
         cls_explainer = search_model(model_name)
     elif model == 'irony':
         model_name = "cardiffnlp/twitter-roberta-base-irony"
