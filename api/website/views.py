@@ -22,7 +22,7 @@ def analyse(model):
             category, analysis, html_thingy = analyze.analyze_sentence(note, model)
 
             category_color = "green"
-            if category == 'NEGATIVE' or category == 'non_irony':
+            if category == 'NEG' or category == 'non_irony':
                 category_color = "red"
 
             sentence, word_colors = take_array_apart(analysis, category == 'POSITIVE' or category == 'irony')
